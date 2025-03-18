@@ -1,0 +1,11 @@
+# Use an official Python image
+FROM public.ecr.aws/lambda/python:3.13
+
+# Install dependencies
+RUN pip install --no-cache-dir google-generativeai psycopg2-binary
+
+# Copy application code
+COPY app.py ${LAMBDA_TASK_ROOT}
+
+# Command to run your Lambda function handler
+CMD ["app.lambda_handler"]
