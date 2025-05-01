@@ -1,4 +1,4 @@
-name: API build and push ci
+name: API build and push CI
 
 on:
   push:
@@ -17,13 +17,13 @@ jobs:
 
     permissions:
       contents: read
-      packages: write
+      packages: write  # Required to push to ghcr.io
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to the Github Container registry
+      - name: Log in to the GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -36,8 +36,7 @@ jobs:
           context: ./services/backend
           file: ./services/backend/Dockerfile
           push: true
-          tags: ghcr.io/sourasishbasu/${{ env.IMAGE_NAME }}:latest
+          tags: ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Log out from Docker Hub
-        run: docker logout
-        
+      - name: Log out from GitHub Container Registry
+        run: docker logout ghcr.io
